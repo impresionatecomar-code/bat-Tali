@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bat de Tali 2026 - Álbum de fotos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #FAF6F1 0%, #F5EFEA 100%);
+            min-height: 100vh;
+            color: #5A5A5A;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* PANTALLA PRINCIPAL */
+        .screen {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #FAF6F1 0%, #F5EFEA 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 300;
+            color: #8B6F6F;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C4846E, transparent);
+            margin: 1.5rem auto;
+            opacity: 0.6;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #B8927A;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 250, 248, 0.95);
+            border-radius: 12px;
+            border: 1px solid #E8C4B8;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(196, 132, 110, 0.08);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+        }
+
+        button {
+            padding: 14px 32px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            font-family: 'Lora', serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #C4846E 0%, #B8784C 100%);
+            color: #FAF6F1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(196, 132, 110, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid #C4846E;
+            color: #8B6F6F;
+        }
+
+        .btn-secondary:hover {
+            background: #F5EFEA;
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            color: #B8927A;
+            text-decoration: underline;
+            padding: 0;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-back:hover {
+            color: #8B6F6F;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #8B6F6F;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid #E8C4B8;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-family: 'Lora', serif;
+            color: #5A5A5A;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #C4846E;
+        }
+
+        .file-input-wrapper {
+            display: block;
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 2px dashed #D4AFA0;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(196, 132, 110, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-input-wrapper:hover {
+            background: rgba(196, 132, 110, 0.1);
+        }
+
+        .file-input-wrapper input {
+            display: none;
+        }
+
+        .file-input-text {
+            color: #8B6F6F;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .file-input-text .emoji {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .file-input-text .small {
+            font-size: 13px;
+            color: #B8927A;
+        }
+
+        .qr-section {
+            text-align: center;
+            background: rgba(196, 132, 110, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .qr-section p {
+            color: #8B6F6F;
+            font-size: 13px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .qr-section img {
+            max-width: 180px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .qr-url {
+            font-size: 11px;
+            color: #B8927A;
+            word-break: break-all;
+            font-style: italic;
+        }
+
+        .status-badge {
+            background: rgba(168, 184, 122, 0.1);
+            border: 1px solid #A8B87A;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+            color: #7A8C52;
+            font-size: 14px;
+        }
+
+        .status-badge.off {
+            background: rgba(212, 174, 160, 0.1);
+            border-color: #D4AFA0;
+            color: #8B6F6F;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 2rem;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            background: #F5EFEA;
+            border: 1px solid #E8C4B8;
+            transition: all 0.3s ease;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+            font-size: 10px;
+            transition: background 0.2s;
+        }
+
+        .photo-item:hover .photo-overlay {
+            background: rgba(0,0,0,0.5);
+        }
+
+        .photo-info {
+            color: #FAF6F1;
+            line-height: 1.3;
+        }
+
+        .photo-delete {
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: white;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            align-self: flex-end;
+            transition: all 0.2s;
+        }
+
+        .photo-delete:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #B8927A;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .control-label {
+            color: #8B6F6F;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-transmit {
+            padding: 12px 24px;
+            font-size: 14px;
+        }
+
+        .btn-transmit.on {
+            background: linear-gradient(135deg, #D4746F 0%, #C45A55 100%);
+            color: #FAF6F1;
+        }
+
+        .btn-transmit.off {
+            background: linear-gradient(135deg, #A8B87A 0%, #95A56C 100%);
+            color: #FAF6F1;
+        }
+
+        .count {
+            color: #8B6F6F;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .container {
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .container-wide {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA PRINCIPAL -->
+    <div id="mainScreen" class="screen">
+        <div class="header">
+            <h1>Bat de Tali</h1>
+            <div class="divider"></div>
+            <p>2026</p>
+        </div>
+        <div class="content">
+            <div class="card">
+                <p style="text-align: center; color: #8B6F6F; margin-bottom: 2rem; font-size: 14px; line-height: 1.8;">
+                    Bienvenido al álbum digital. Elige tu rol para continuar.
+                </p>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="goGuest()">📸 Soy un invitado</button>
+                    <button class="btn-secondary" onclick="goOperator()">🎥 Soy el operador</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA INVITADO -->
+    <div id="guestScreen" class="screen hidden">
+        <div class="container">
+            <button class="btn-back" onclick="goBack()">← Volver</button>
+
+            <div class="header">
+                <h1>Compartir momento</h1>
+                <div class="divider"></div>
+            </div>
+
+            <div class="card qr-section">
+                <p>ESCANEA O COMPARTE</p>
+                <img id="qrCode" alt="QR para invitados" />
+                <p class="qr-url" id="qrUrl"></p>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>Tu nombre</label>
+                    <input type="text" id="guestName" placeholder="Juan" />
+                </div>
+
+                <label class="file-input-wrapper">
+                    <input type="file" accept="image/*" onchange="handleFileUpload(event)" />
+                    <div class="file-input-text">
+                        <span class="emoji">📸</span>
+                        Arrastra tu foto aquí<br/>
+                        <span class="small">o haz clic para seleccionar</span>
+                    </div>
+                </label>
+
+                <div id="uploadCount" class="count hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA OPERADOR -->
+    <div id="operatorScreen" class="screen hidden">
+        <div class="container-wide">
+            <button class="btn-back" onclick="goBack()">← Salir</button>
+
+            <div class="header">
+                <h1>Panel de control</h1>
+                <div class="divider"></div>
+            </div>
+
+            <div class="control-header">
+                <div class="control-label">Estado de transmisión</div>
+                <button id="transmitBtn" class="btn-transmit off" onclick="toggleTransmit()">⚫ PAUSADO</button>
+            </div>
+
+            <div id="statusBadge" class="status-badge off">
+                ○ Transmisión pausada - Las fotos se guardan pero no se muestran
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <button class="btn-secondary" style="border-color: #D4746F; color: #D4746F;" onclick="clearAllPhotos()">
+                    Borrar todo (<span id="photoCount">0</span>)
+                </button>
+            </div>
+
+            <div id="photoGrid" class="photo-grid">
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <p>Esperando fotos de los invitados...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APP_KEY = 'tali_bat_photos';
+        const OPERATOR_PASSWORD = 'operador2026';
+        let photos = [];
+        let transmitting = false;
+
+        // Cargar fotos al iniciar
+        function loadPhotos() {
+            const stored = localStorage.getItem(APP_KEY);
+            if (stored) {
+                try {
+                    photos = JSON.parse(stored);
+                } catch (e) {}
+            }
+            updatePhotoCount();
+        }
+
+        function savePhotos() {
+            localStorage.setItem(APP_KEY, JSON.stringify(photos));
+        }
+
+        function addPhoto(base64, name) {
+            const newPhoto = {
+                id: Date.now(),
+                src: base64,
+                name: name || 'Invitado',
+                timestamp: new Date().toLocaleTimeString('es-AR')
+            };
+            photos.unshift(newPhoto);
+            savePhotos();
+            updatePhotoCount();
+        }
+
+        function deletePhoto(id) {
+            photos = photos.filter(p => p.id !== id);
+            savePhotos();
+            renderPhotos();
+            updatePhotoCount();
+        }
+
+        function clearAllPhotos() {
+            if (confirm('¿Borrar todas las fotos?')) {
+                photos = [];
+                savePhotos();
+                renderPhotos();
+                updatePhotoCount();
+            }
+        }
+
+        function updatePhotoCount() {
+            document.getElementById('photoCount').textContent = photos.length;
+            const uploadCount = document.getElementById('uploadCount');
+            if (photos.length > 0) {
+                uploadCount.classList.remove('hidden');
+                uploadCount.textContent = '✓ ' + photos.length + ' foto' + (photos.length !== 1 ? 's' : '') + ' compartida' + (photos.length !== 1 ? 's' : '');
+            } else {
+                uploadCount.classList.add('hidden');
+            }
+        }
+
+        function generateQRCode() {
+            const baseUrl = window.location.href.split('?')[0];
+            const qrText = baseUrl + '?guest=true';
+            return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(qrText);
+        }
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const name = document.getElementById('guestName').value || 'Invitado';
+                    addPhoto(event.target.result, name);
+                    document.getElementById('guestName').value = '';
+                    e.target.value = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderPhotos() {
+            const grid = document.getElementById('photoGrid');
+            
+            if (photos.length === 0) {
+                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><p>Esperando fotos de los invitados...</p></div>';
+                return;
+            }
+
+            grid.innerHTML = photos.map(photo => `
+                <div class="photo-item" style="opacity: ${transmitting ? 1 : 0.6};">
+                    <img src="${photo.src}" alt="Foto" />
+                    <div class="photo-overlay">
+                        <div class="photo-info">
+                            <div>${photo.timestamp}</div>
+                            <div>${photo.name}</div>
+                        </div>
+                        <button class="photo-delete" onclick="deletePhoto(${photo.id})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleTransmit() {
+            transmitting = !transmitting;
+            const btn = document.getElementById('transmitBtn');
+            const badge = document.getElementById('statusBadge');
+            
+            if (transmitting) {
+                btn.textContent = '🔴 EN VIVO';
+                btn.classList.remove('off');
+                btn.classList.add('on');
+                badge.classList.remove('off');
+                badge.innerHTML = '✓ Transmisión activa - Los invitados pueden ver estas fotos en pantalla';
+            } else {
+                btn.textContent = '⚫ PAUSADO';
+                btn.classList.remove('on');
+                btn.classList.add('off');
+                badge.classList.add('off');
+                badge.innerHTML = '○ Transmisión pausada - Las fotos se guardan pero no se muestran';
+            }
+            renderPhotos();
+        }
+
+        function showScreen(screenId) {
+            document.getElementById('mainScreen').classList.add('hidden');
+            document.getElementById('guestScreen').classList.add('hidden');
+            document.getElementById('operatorScreen').classList.add('hidden');
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function goBack() {
+            showScreen('mainScreen');
+        }
+
+        function goGuest() {
+            showScreen('guestScreen');
+            document.getElementById('qrCode').src = generateQRCode();
+            document.getElementById('qrUrl').textContent = window.location.href;
+        }
+
+        function goOperator() {
+            const pwd = prompt('Contraseña de operador:');
+            if (pwd === OPERATOR_PASSWORD) {
+                showScreen('operatorScreen');
+                renderPhotos();
+                transmitting = false;
+                document.getElementById('transmitBtn').textContent = '⚫ PAUSADO';
+                document.getElementById('transmitBtn').classList.add('off');
+                document.getElementById('statusBadge').classList.add('off');
+            } else if (pwd !== null) {
+                alert('Contraseña incorrecta');
+            }
+        }
+
+        // Inicializar
+        loadPhotos();
+    </script>
+
+</body>
+</html>
