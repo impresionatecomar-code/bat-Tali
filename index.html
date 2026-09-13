@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bat de Tali 2026 - Álbum de fotos</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -27,7 +28,6 @@
             display: none !important;
         }
 
-        /* PANTALLA PRINCIPAL */
         .screen {
             width: 100%;
             min-height: 100vh;
@@ -134,14 +134,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-back:hover {
-            color: #8B6F6F;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
         label {
             display: block;
             font-size: 13px;
@@ -152,8 +144,7 @@
             text-transform: uppercase;
         }
 
-        input[type="text"],
-        input[type="file"] {
+        input[type="text"], input[type="file"] {
             width: 100%;
             padding: 14px 16px;
             border-radius: 8px;
@@ -162,7 +153,6 @@
             font-size: 14px;
             font-family: 'Lora', serif;
             color: #5A5A5A;
-            transition: all 0.3s ease;
         }
 
         input[type="text"]:focus {
@@ -178,7 +168,6 @@
             text-align: center;
             cursor: pointer;
             background: rgba(196, 132, 110, 0.05);
-            transition: all 0.3s ease;
             margin-bottom: 1.5rem;
         }
 
@@ -190,24 +179,6 @@
             display: none;
         }
 
-        .file-input-text {
-            color: #8B6F6F;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        .file-input-text .emoji {
-            font-size: 24px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .file-input-text .small {
-            font-size: 13px;
-            color: #B8927A;
-        }
-
         .qr-section {
             text-align: center;
             background: rgba(196, 132, 110, 0.05);
@@ -216,25 +187,10 @@
             margin: 2rem 0;
         }
 
-        .qr-section p {
-            color: #8B6F6F;
-            font-size: 13px;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.5px;
-        }
-
         .qr-section img {
             max-width: 180px;
             border-radius: 8px;
             margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .qr-url {
-            font-size: 11px;
-            color: #B8927A;
-            word-break: break-all;
-            font-style: italic;
         }
 
         .status-badge {
@@ -268,7 +224,6 @@
             aspect-ratio: 1 / 1;
             background: #F5EFEA;
             border: 1px solid #E8C4B8;
-            transition: all 0.3s ease;
         }
 
         .photo-item img {
@@ -310,11 +265,6 @@
             cursor: pointer;
             font-size: 11px;
             align-self: flex-end;
-            transition: all 0.2s;
-        }
-
-        .photo-delete:hover {
-            background: rgba(0,0,0,0.8);
         }
 
         .empty-state {
@@ -323,25 +273,17 @@
             color: #B8927A;
         }
 
-        .empty-state p {
-            font-size: 14px;
-            font-style: italic;
+        .container {
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .control-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .control-label {
-            color: #8B6F6F;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+        .container-wide {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .btn-transmit {
@@ -359,32 +301,9 @@
             color: #FAF6F1;
         }
 
-        .count {
-            color: #8B6F6F;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .container {
-            padding: 2rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .container-wide {
-            padding: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        /* PANTALLA DISPLAY */
+        /* DISPLAY */
         #displayScreen {
             background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-            position: relative;
-            overflow: hidden;
         }
 
         .display-container {
@@ -396,13 +315,24 @@
             position: relative;
         }
 
-        .photo-main {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .display-title {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            color: #C4846E;
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .display-counter {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            color: #C4846E;
+            font-size: 24px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
 
         .photo-main img {
@@ -428,9 +358,6 @@
             bottom: 40px;
             left: 40px;
             color: #FAF6F1;
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: 1px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
 
@@ -445,27 +372,6 @@
             opacity: 0.8;
         }
 
-        .display-counter {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            color: #C4846E;
-            font-size: 24px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-            font-weight: 300;
-        }
-
-        .display-title {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            color: #C4846E;
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-
         .display-empty {
             text-align: center;
             color: #B8927A;
@@ -473,8 +379,11 @@
             font-weight: 300;
         }
 
-        .display-empty p {
-            margin-bottom: 20px;
+        .count {
+            color: #8B6F6F;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -504,33 +413,28 @@
     <div id="guestScreen" class="screen hidden">
         <div class="container">
             <button class="btn-back" onclick="goBack()">← Volver</button>
-
             <div class="header">
                 <h1>Compartir momento</h1>
                 <div class="divider"></div>
             </div>
-
             <div class="card qr-section">
-                <p>ESCANEA O COMPARTE</p>
+                <p style="color: #8B6F6F; font-size: 13px; margin-bottom: 1.5rem;">ESCANEA O COMPARTE</p>
                 <img id="qrCode" alt="QR para invitados" />
-                <p class="qr-url" id="qrUrl"></p>
+                <p style="font-size: 11px; color: #B8927A; word-break: break-all;" id="qrUrl"></p>
             </div>
-
             <div class="card">
-                <div class="form-group">
+                <div style="margin-bottom: 1.5rem;">
                     <label>Tu nombre</label>
                     <input type="text" id="guestName" placeholder="Juan" />
                 </div>
-
                 <label class="file-input-wrapper">
                     <input type="file" accept="image/*" onchange="handleFileUpload(event)" />
-                    <div class="file-input-text">
-                        <span class="emoji">📸</span>
+                    <div style="color: #8B6F6F; font-size: 16px; line-height: 1.6;">
+                        <div style="font-size: 24px; margin-bottom: 8px;">📸</div>
                         Arrastra tu foto aquí<br/>
-                        <span class="small">o haz clic para seleccionar</span>
+                        <span style="font-size: 13px; color: #B8927A;">o haz clic para seleccionar</span>
                     </div>
                 </label>
-
                 <div id="uploadCount" class="count hidden"></div>
             </div>
         </div>
@@ -540,21 +444,17 @@
     <div id="operatorScreen" class="screen hidden">
         <div class="container-wide">
             <button class="btn-back" onclick="goBack()">← Salir</button>
-
             <div class="header">
                 <h1>Panel de control</h1>
                 <div class="divider"></div>
             </div>
-
-            <div class="control-header">
-                <div class="control-label">Estado de transmisión</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 1rem;">
+                <div style="color: #8B6F6F; font-size: 13px; text-transform: uppercase;">Estado de transmisión</div>
                 <button id="transmitBtn" class="btn-transmit off" onclick="toggleTransmit()">⚫ PAUSADO</button>
             </div>
-
             <div id="statusBadge" class="status-badge off">
                 ○ Transmisión pausada - Las fotos se guardan pero no se muestran
             </div>
-
             <div style="margin-bottom: 2rem;">
                 <button class="btn-secondary" style="border-color: #D4746F; color: #D4746F;" onclick="clearAllPhotos()">
                     Borrar todo (<span id="photoCount">0</span>)
@@ -563,21 +463,17 @@
                     🖥️ Abrir Display para TV
                 </button>
             </div>
-
             <div id="photoGrid" class="photo-grid">
-                <div class="empty-state" style="grid-column: 1 / -1;">
-                    <p>Esperando fotos de los invitados...</p>
-                </div>
+                <div class="empty-state" style="grid-column: 1 / -1;"><p>Esperando fotos de los invitados...</p></div>
             </div>
         </div>
     </div>
 
-    <!-- PANTALLA DISPLAY (para TV/proyector) -->
+    <!-- PANTALLA DISPLAY -->
     <div id="displayScreen" class="screen hidden">
         <div class="display-container">
             <div class="display-title">Bat de Tali</div>
             <div class="display-counter"><span id="displayPhotoCount">0</span> fotos</div>
-            
             <div id="displayContent" class="photo-main">
                 <div class="display-empty">
                     <p>🎉</p>
@@ -588,56 +484,99 @@
     </div>
 
     <script>
-        const APP_KEY = 'tali_bat_photos';
+        // CONFIGURACIÓN SUPABASE
+        const SUPABASE_URL = 'https://vwmheggssodvqimppvcx.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3bWhlZ2dzc29kdnFpbXBwdmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMjE3MDgsImV4cCI6MjEwNDg5NzcwOH0.W4L1bkVwzbO_b1juLgDeOm6OplOi40_cpQFNKaxOfHI';
+
+        const { createClient } = window.supabase;
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const OPERATOR_PASSWORD = 'operador2026';
         let photos = [];
         let transmitting = false;
         let currentPhotoIndex = 0;
         let displayInterval = null;
 
-        // Cargar fotos al iniciar
-        function loadPhotos() {
-            const stored = localStorage.getItem(APP_KEY);
-            if (stored) {
-                try {
-                    photos = JSON.parse(stored);
-                } catch (e) {}
-            }
-            updatePhotoCount();
-        }
+        // Cargar fotos de Supabase
+        async function loadPhotos() {
+            try {
+                const { data, error } = await supabase
+                    .from('photos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
 
-        function savePhotos() {
-            localStorage.setItem(APP_KEY, JSON.stringify(photos));
-        }
+                if (error) {
+                    console.error('Error cargando fotos:', error);
+                    return;
+                }
 
-        function addPhoto(base64, name) {
-            const newPhoto = {
-                id: Date.now(),
-                src: base64,
-                name: name || 'Invitado',
-                timestamp: new Date().toLocaleTimeString('es-AR')
-            };
-            photos.unshift(newPhoto);
-            savePhotos();
-            updatePhotoCount();
-            updateDisplay();
-        }
-
-        function deletePhoto(id) {
-            photos = photos.filter(p => p.id !== id);
-            savePhotos();
-            renderPhotos();
-            updatePhotoCount();
-            updateDisplay();
-        }
-
-        function clearAllPhotos() {
-            if (confirm('¿Borrar todas las fotos?')) {
-                photos = [];
-                savePhotos();
-                renderPhotos();
+                photos = data || [];
                 updatePhotoCount();
-                updateDisplay();
+            } catch (e) {
+                console.error('Error:', e);
+            }
+        }
+
+        async function addPhoto(base64, name) {
+            try {
+                const now = new Date().toLocaleTimeString('es-AR');
+                const { error } = await supabase
+                    .from('photos')
+                    .insert([{
+                        name: name || 'Invitado',
+                        timestamp: now,
+                        src: base64
+                    }]);
+
+                if (error) {
+                    console.error('Error subiendo foto:', error);
+                    alert('Error al subir la foto');
+                    return;
+                }
+
+                await loadPhotos();
+            } catch (e) {
+                console.error('Error:', e);
+            }
+        }
+
+        async function deletePhoto(id) {
+            try {
+                const { error } = await supabase
+                    .from('photos')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) {
+                    console.error('Error borrando foto:', error);
+                    return;
+                }
+
+                await loadPhotos();
+                renderPhotos();
+            } catch (e) {
+                console.error('Error:', e);
+            }
+        }
+
+        async function clearAllPhotos() {
+            if (!confirm('¿Borrar todas las fotos?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('photos')
+                    .delete()
+                    .neq('id', 0);
+
+                if (error) {
+                    console.error('Error:', error);
+                    return;
+                }
+
+                await loadPhotos();
+                renderPhotos();
+            } catch (e) {
+                console.error('Error:', e);
             }
         }
 
@@ -738,8 +677,6 @@
                 btn.classList.add('on');
                 badge.classList.remove('off');
                 badge.innerHTML = '✓ Transmisión activa - Los invitados pueden ver estas fotos en pantalla';
-                
-                // Rotar fotos cada 5 segundos en display
                 clearInterval(displayInterval);
                 displayInterval = setInterval(rotateDisplay, 5000);
             } else {
@@ -789,7 +726,6 @@
         function openDisplay() {
             showScreen('displayScreen');
             updateDisplay();
-            // Auto-actualizar display cada segundo
             clearInterval(displayInterval);
             displayInterval = setInterval(() => {
                 loadPhotos();
@@ -799,22 +735,9 @@
             }, 1000);
         }
 
-        // Verificar si es display mode en URL
-        function checkUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('display') === 'true') {
-                openDisplay();
-            }
-        }
-
         // Inicializar
         loadPhotos();
-        checkUrlParams();
-
-        // Actualizar fotos cada 2 segundos (para sincronización)
-        setInterval(() => {
-            loadPhotos();
-        }, 2000);
+        setInterval(loadPhotos, 2000);
     </script>
 
 </body>
