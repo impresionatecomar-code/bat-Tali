@@ -3,742 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bat de Tali 2026 - Álbum de fotos</title>
+    <title>Bat de Tali 2026</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            font-family: 'Lora', serif;
-            background: linear-gradient(135deg, #FAF6F1 0%, #F5EFEA 100%);
-            min-height: 100vh;
-            color: #5A5A5A;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .screen {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(135deg, #FAF6F1 0%, #F5EFEA 100%);
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .header {
-            text-align: center;
-            padding: 2rem 1rem 1rem;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 300;
-            color: #8B6F6F;
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-        }
-
-        .divider {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #C4846E, transparent);
-            margin: 1.5rem auto;
-            opacity: 0.6;
-        }
-
-        .header p {
-            font-size: 18px;
-            color: #B8927A;
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        .content {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .card {
-            background: rgba(255, 250, 248, 0.95);
-            border-radius: 12px;
-            border: 1px solid #E8C4B8;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(196, 132, 110, 0.08);
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 16px;
-            flex-direction: column;
-        }
-
-        button {
-            padding: 14px 32px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            font-family: 'Lora', serif;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #C4846E 0%, #B8784C 100%);
-            color: #FAF6F1;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(196, 132, 110, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1.5px solid #C4846E;
-            color: #8B6F6F;
-        }
-
-        .btn-secondary:hover {
-            background: #F5EFEA;
-        }
-
-        .btn-back {
-            background: none;
-            border: none;
-            color: #B8927A;
-            text-decoration: underline;
-            padding: 0;
-            cursor: pointer;
-            font-size: 14px;
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            color: #8B6F6F;
-            font-weight: 500;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        input[type="text"], input[type="file"] {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 8px;
-            border: 1px solid #E8C4B8;
-            background: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            font-family: 'Lora', serif;
-            color: #5A5A5A;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #C4846E;
-        }
-
-        .file-input-wrapper {
-            display: block;
-            padding: 2.5rem;
-            border-radius: 8px;
-            border: 2px dashed #D4AFA0;
-            text-align: center;
-            cursor: pointer;
-            background: rgba(196, 132, 110, 0.05);
-            margin-bottom: 1.5rem;
-        }
-
-        .file-input-wrapper:hover {
-            background: rgba(196, 132, 110, 0.1);
-        }
-
-        .file-input-wrapper input {
-            display: none;
-        }
-
-        .qr-section {
-            text-align: center;
-            background: rgba(196, 132, 110, 0.05);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .qr-section img {
-            max-width: 180px;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .status-badge {
-            background: rgba(168, 184, 122, 0.1);
-            border: 1px solid #A8B87A;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 2rem 0;
-            text-align: center;
-            color: #7A8C52;
-            font-size: 14px;
-        }
-
-        .status-badge.off {
-            background: rgba(212, 174, 160, 0.1);
-            border-color: #D4AFA0;
-            color: #8B6F6F;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 2rem;
-        }
-
-        .photo-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            aspect-ratio: 1 / 1;
-            background: #F5EFEA;
-            border: 1px solid #E8C4B8;
-        }
-
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .photo-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 8px;
-            font-size: 10px;
-            transition: background 0.2s;
-        }
-
-        .photo-item:hover .photo-overlay {
-            background: rgba(0,0,0,0.5);
-        }
-
-        .photo-info {
-            color: #FAF6F1;
-            line-height: 1.3;
-        }
-
-        .photo-delete {
-            background: rgba(0,0,0,0.6);
-            border: none;
-            color: white;
-            border-radius: 4px;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 11px;
-            align-self: flex-end;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #B8927A;
-        }
-
-        .container {
-            padding: 2rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .container-wide {
-            padding: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .btn-transmit {
-            padding: 12px 24px;
-            font-size: 14px;
-        }
-
-        .btn-transmit.on {
-            background: linear-gradient(135deg, #D4746F 0%, #C45A55 100%);
-            color: #FAF6F1;
-        }
-
-        .btn-transmit.off {
-            background: linear-gradient(135deg, #A8B87A 0%, #95A56C 100%);
-            color: #FAF6F1;
-        }
-
-        /* DISPLAY */
-        #displayScreen {
-            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-        }
-
-        .display-container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .display-title {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            color: #C4846E;
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .display-counter {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            color: #C4846E;
-            font-size: 24px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .photo-main img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            animation: slideIn 0.6s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .photo-info-display {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
-            color: #FAF6F1;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .photo-info-display .name {
-            font-size: 32px;
-            font-weight: 400;
-            margin-bottom: 8px;
-        }
-
-        .photo-info-display .time {
-            font-size: 18px;
-            opacity: 0.8;
-        }
-
-        .display-empty {
-            text-align: center;
-            color: #B8927A;
-            font-size: 32px;
-            font-weight: 300;
-        }
-
-        .count {
-            color: #8B6F6F;
-            font-size: 13px;
-            text-align: center;
-            margin-top: 1rem;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lora', serif; background: linear-gradient(135deg, #FAF6F1 0%, #F5EFEA 100%); min-height: 100vh; }
+        .hidden { display: none !important; }
+        .screen { width: 100%; min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(135deg, #FAF6F1 0%, #F5EFEA 100%); }
+        .header { text-align: center; padding: 2rem 1rem; }
+        .header h1 { font-size: 32px; font-weight: 300; color: #8B6F6F; letter-spacing: 2px; }
+        .divider { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #C4846E, transparent); margin: 1.5rem auto; }
+        .content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
+        .card { background: rgba(255, 250, 248, 0.95); border-radius: 12px; border: 1px solid #E8C4B8; padding: 2rem; box-shadow: 0 8px 32px rgba(196, 132, 110, 0.08); max-width: 600px; width: 100%; }
+        .button-group { display: flex; gap: 16px; flex-direction: column; }
+        button { padding: 14px 32px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px; font-family: 'Lora', serif; transition: all 0.3s ease; }
+        .btn-primary { background: linear-gradient(135deg, #C4846E 0%, #B8784C 100%); color: #FAF6F1; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-secondary { background: transparent; border: 1.5px solid #C4846E; color: #8B6F6F; }
+        .btn-back { background: none; border: none; color: #B8927A; text-decoration: underline; cursor: pointer; margin-bottom: 1.5rem; }
+        input[type="text"] { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #E8C4B8; font-family: 'Lora', serif; margin-bottom: 1.5rem; }
+        .file-input-wrapper { display: block; padding: 2.5rem; border-radius: 8px; border: 2px dashed #D4AFA0; text-align: center; cursor: pointer; background: rgba(196, 132, 110, 0.05); margin-bottom: 1.5rem; }
+        .file-input-wrapper input { display: none; }
+        .qr-section { text-align: center; background: rgba(196, 132, 110, 0.05); padding: 1.5rem; margin: 2rem 0; border-radius: 8px; }
+        .qr-section img { max-width: 180px; margin: 1rem 0; border-radius: 8px; }
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 2rem; }
+        .photo-item { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #F5EFEA; border: 1px solid #E8C4B8; }
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+        .status-badge { background: rgba(212, 174, 160, 0.1); border: 1px solid #D4AFA0; border-radius: 8px; padding: 1rem; margin: 2rem 0; text-align: center; color: #8B6F6F; }
+        .status-badge.on { background: rgba(168, 184, 122, 0.1); border-color: #A8B87A; color: #7A8C52; }
+        .btn-transmit { padding: 12px 24px; font-size: 14px; }
+        .btn-transmit.on { background: linear-gradient(135deg, #D4746F 0%, #C45A55 100%); color: #FAF6F1; }
+        .btn-transmit.off { background: linear-gradient(135deg, #A8B87A 0%, #95A56C 100%); color: #FAF6F1; }
+        .container { padding: 2rem; max-width: 500px; margin: 0 auto; }
+        .container-wide { padding: 2rem; max-width: 1000px; margin: 0 auto; }
+        .empty-state { text-align: center; padding: 3rem 1rem; color: #B8927A; }
+        #displayScreen { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); }
+        .display-container { width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+        .display-title { position: absolute; top: 40px; left: 40px; color: #C4846E; font-size: 28px; font-weight: 300; letter-spacing: 2px; }
+        .display-counter { position: absolute; top: 40px; right: 40px; color: #C4846E; font-size: 24px; }
+        .photo-main img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .photo-info-display { position: absolute; bottom: 40px; left: 40px; color: #FAF6F1; }
+        .photo-info-display .name { font-size: 32px; margin-bottom: 8px; }
+        .display-empty { text-align: center; color: #B8927A; font-size: 32px; }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA PRINCIPAL -->
-    <div id="mainScreen" class="screen">
-        <div class="header">
-            <h1>Bat de Tali</h1>
-            <div class="divider"></div>
-            <p>2026</p>
-        </div>
-        <div class="content">
-            <div class="card">
-                <p style="text-align: center; color: #8B6F6F; margin-bottom: 2rem; font-size: 14px; line-height: 1.8;">
-                    Bienvenido al álbum digital. Elige tu rol para continuar.
-                </p>
-                <div class="button-group">
-                    <button class="btn-primary" onclick="goGuest()">📸 Soy un invitado</button>
-                    <button class="btn-secondary" onclick="goOperator()">🎥 Soy el operador</button>
-                </div>
+<div id="mainScreen" class="screen">
+    <div class="header"><h1>Bat de Tali</h1><div class="divider"></div><p style="color: #B8927A; font-style: italic;">2026</p></div>
+    <div class="content">
+        <div class="card">
+            <p style="text-align: center; color: #8B6F6F; margin-bottom: 2rem;">Elige tu rol para continuar</p>
+            <div class="button-group">
+                <button class="btn-primary" id="btnGuest">📸 Soy un invitado</button>
+                <button class="btn-secondary" id="btnOperator">🎥 Soy el operador</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- PANTALLA INVITADO -->
-    <div id="guestScreen" class="screen hidden">
-        <div class="container">
-            <button class="btn-back" onclick="goBack()">← Volver</button>
-            <div class="header">
-                <h1>Compartir momento</h1>
-                <div class="divider"></div>
-            </div>
-            <div class="card qr-section">
-                <p style="color: #8B6F6F; font-size: 13px; margin-bottom: 1.5rem;">ESCANEA O COMPARTE</p>
-                <img id="qrCode" alt="QR para invitados" />
-                <p style="font-size: 11px; color: #B8927A; word-break: break-all;" id="qrUrl"></p>
-            </div>
-            <div class="card">
-                <div style="margin-bottom: 1.5rem;">
-                    <label>Tu nombre</label>
-                    <input type="text" id="guestName" placeholder="Juan" />
+<div id="guestScreen" class="screen hidden">
+    <div class="container">
+        <button class="btn-back" id="btnBackGuest">← Volver</button>
+        <div class="header"><h1>Compartir momento</h1><div class="divider"></div></div>
+        <div class="card qr-section">
+            <p style="color: #8B6F6F; font-size: 13px;">ESCANEA O COMPARTE</p>
+            <img id="qrCode" alt="QR">
+            <p style="font-size: 11px; color: #B8927A; word-break: break-all;" id="qrUrl"></p>
+        </div>
+        <div class="card">
+            <label>Tu nombre</label>
+            <input type="text" id="guestName" placeholder="Juan">
+            <label class="file-input-wrapper">
+                <input type="file" accept="image/*" id="fileInput">
+                <div style="color: #8B6F6F;">
+                    <div style="font-size: 24px;">📸</div>
+                    Arrastra tu foto aquí<br><span style="font-size: 13px; color: #B8927A;">o haz clic</span>
                 </div>
-                <label class="file-input-wrapper">
-                    <input type="file" accept="image/*" onchange="handleFileUpload(event)" />
-                    <div style="color: #8B6F6F; font-size: 16px; line-height: 1.6;">
-                        <div style="font-size: 24px; margin-bottom: 8px;">📸</div>
-                        Arrastra tu foto aquí<br/>
-                        <span style="font-size: 13px; color: #B8927A;">o haz clic para seleccionar</span>
-                    </div>
-                </label>
-                <div id="uploadCount" class="count hidden"></div>
-            </div>
+            </label>
+            <div id="uploadCount" style="display: none; color: #8B6F6F; text-align: center; font-size: 13px;"></div>
         </div>
     </div>
+</div>
 
-    <!-- PANTALLA OPERADOR -->
-    <div id="operatorScreen" class="screen hidden">
-        <div class="container-wide">
-            <button class="btn-back" onclick="goBack()">← Salir</button>
-            <div class="header">
-                <h1>Panel de control</h1>
-                <div class="divider"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 1rem;">
-                <div style="color: #8B6F6F; font-size: 13px; text-transform: uppercase;">Estado de transmisión</div>
-                <button id="transmitBtn" class="btn-transmit off" onclick="toggleTransmit()">⚫ PAUSADO</button>
-            </div>
-            <div id="statusBadge" class="status-badge off">
-                ○ Transmisión pausada - Las fotos se guardan pero no se muestran
-            </div>
-            <div style="margin-bottom: 2rem;">
-                <button class="btn-secondary" style="border-color: #D4746F; color: #D4746F;" onclick="clearAllPhotos()">
-                    Borrar todo (<span id="photoCount">0</span>)
-                </button>
-                <button class="btn-secondary" style="border-color: #C4846E; color: #C4846E; margin-left: 1rem;" onclick="openDisplay()">
-                    🖥️ Abrir Display para TV
-                </button>
-            </div>
-            <div id="photoGrid" class="photo-grid">
-                <div class="empty-state" style="grid-column: 1 / -1;"><p>Esperando fotos de los invitados...</p></div>
-            </div>
+<div id="operatorScreen" class="screen hidden">
+    <div class="container-wide">
+        <button class="btn-back" id="btnBackOp">← Salir</button>
+        <div class="header"><h1>Panel de control</h1><div class="divider"></div></div>
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center;">
+            <span style="color: #8B6F6F; font-size: 13px; text-transform: uppercase;">Transmisión</span>
+            <button id="btnTransmit" class="btn-transmit off">⚫ PAUSADO</button>
+            <button id="btnDisplay" class="btn-secondary" style="margin-left: auto;">🖥️ Display</button>
+        </div>
+        <div id="statusBadge" class="status-badge">○ Transmisión pausada</div>
+        <button id="btnClear" class="btn-secondary" style="border-color: #D4746F; color: #D4746F;">Borrar todo (<span id="photoCount">0</span>)</button>
+        <div id="photoGrid" class="photo-grid">
+            <div class="empty-state" style="grid-column: 1 / -1;">Esperando fotos...</div>
         </div>
     </div>
+</div>
 
-    <!-- PANTALLA DISPLAY -->
-    <div id="displayScreen" class="screen hidden">
-        <div class="display-container">
-            <div class="display-title">Bat de Tali</div>
-            <div class="display-counter"><span id="displayPhotoCount">0</span> fotos</div>
-            <div id="displayContent" class="photo-main">
-                <div class="display-empty">
-                    <p>🎉</p>
-                    <p>Esperando fotos...</p>
-                </div>
-            </div>
+<div id="displayScreen" class="screen hidden">
+    <div class="display-container">
+        <div class="display-title">Bat de Tali</div>
+        <div class="display-counter"><span id="displayCount">0</span> fotos</div>
+        <div id="displayContent" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <div class="display-empty"><p>🎉</p><p>Esperando fotos...</p></div>
         </div>
     </div>
+</div>
 
-    <script>
-        // CONFIGURACIÓN SUPABASE
-        const SUPABASE_URL = 'https://vwmheggssodvqimppvcx.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3bWhlZ2dzc29kdnFpbXBwdmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMjE3MDgsImV4cCI6MjEwNDg5NzcwOH0.W4L1bkVwzbO_b1juLgDeOm6OplOi40_cpQFNKaxOfHI';
+<script>
+const SUPABASE_URL = 'https://vwmheggssodvqimppvcx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3bWhlZ2dzc29kdnFpbXBwdmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMjE3MDgsImV4cCI6MjEwNDg5NzcwOH0.W4L1bkVwzbO_b1juLgDeOm6OplOi40_cpQFNKaxOfHI';
+const PASSWORD = 'operador2026';
 
-        const { createClient } = window.supabase;
-        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const { createClient } = window.supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const OPERATOR_PASSWORD = 'operador2026';
-        let photos = [];
-        let transmitting = false;
-        let currentPhotoIndex = 0;
-        let displayInterval = null;
+let photos = [];
+let transmitting = false;
+let currentIdx = 0;
 
-        // Cargar fotos de Supabase
-        async function loadPhotos() {
-            try {
-                const { data, error } = await supabase
-                    .from('photos')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+async function loadPhotos() {
+    const { data } = await supabase.from('photos').select('*').order('created_at', { ascending: false });
+    photos = data || [];
+    document.getElementById('photoCount').textContent = photos.length;
+    document.getElementById('displayCount').textContent = photos.length;
+    renderPhotos();
+}
 
-                if (error) {
-                    console.error('Error cargando fotos:', error);
-                    return;
-                }
+async function addPhoto(b64, name) {
+    const now = new Date().toLocaleTimeString('es-AR');
+    await supabase.from('photos').insert([{ name: name || 'Invitado', timestamp: now, src: b64 }]);
+    await loadPhotos();
+}
 
-                photos = data || [];
-                updatePhotoCount();
-            } catch (e) {
-                console.error('Error:', e);
-            }
-        }
+async function deletePhoto(id) {
+    await supabase.from('photos').delete().eq('id', id);
+    await loadPhotos();
+}
 
-        async function addPhoto(base64, name) {
-            try {
-                const now = new Date().toLocaleTimeString('es-AR');
-                const { error } = await supabase
-                    .from('photos')
-                    .insert([{
-                        name: name || 'Invitado',
-                        timestamp: now,
-                        src: base64
-                    }]);
+async function clearAll() {
+    if (confirm('¿Borrar todas?')) {
+        await supabase.from('photos').delete().neq('id', 0);
+        await loadPhotos();
+    }
+}
 
-                if (error) {
-                    console.error('Error subiendo foto:', error);
-                    alert('Error al subir la foto');
-                    return;
-                }
+function renderPhotos() {
+    const grid = document.getElementById('photoGrid');
+    if (!photos.length) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;">Esperando fotos...</div>';
+        return;
+    }
+    grid.innerHTML = photos.map(p => `
+        <div class="photo-item" style="opacity: ${transmitting ? 1 : 0.6};">
+            <img src="${p.src}" alt="Foto">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0); display: flex; flex-direction: column; justify-content: space-between; padding: 8px;" class="overlay">
+                <div style="color: #FAF6F1; font-size: 10px;">${p.timestamp}<br>${p.name}</div>
+                <button style="background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; align-self: flex-end;" onclick="deletePhoto(${p.id})">✕</button>
+            </div>
+        </div>
+    `).join('');
+}
 
-                await loadPhotos();
-            } catch (e) {
-                console.error('Error:', e);
-            }
-        }
+function updateDisplay() {
+    const content = document.getElementById('displayContent');
+    if (!transmitting || !photos.length) {
+        content.innerHTML = '<div class="display-empty"><p>🎉</p><p>Esperando fotos...</p></div>';
+        return;
+    }
+    if (currentIdx >= photos.length) currentIdx = 0;
+    const p = photos[currentIdx];
+    content.innerHTML = `
+        <img src="${p.src}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        <div class="photo-info-display">
+            <div class="name">${p.name}</div>
+            <div style="font-size: 18px; opacity: 0.8;">${p.timestamp}</div>
+        </div>
+    `;
+}
 
-        async function deletePhoto(id) {
-            try {
-                const { error } = await supabase
-                    .from('photos')
-                    .delete()
-                    .eq('id', id);
+function showScreen(id) {
+    document.getElementById('mainScreen').classList.add('hidden');
+    document.getElementById('guestScreen').classList.add('hidden');
+    document.getElementById('operatorScreen').classList.add('hidden');
+    document.getElementById('displayScreen').classList.add('hidden');
+    document.getElementById(id).classList.remove('hidden');
+}
 
-                if (error) {
-                    console.error('Error borrando foto:', error);
-                    return;
-                }
+document.getElementById('btnGuest').onclick = () => {
+    showScreen('guestScreen');
+    document.getElementById('qrCode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(window.location.href);
+    document.getElementById('qrUrl').textContent = window.location.href;
+};
 
-                await loadPhotos();
-                renderPhotos();
-            } catch (e) {
-                console.error('Error:', e);
-            }
-        }
-
-        async function clearAllPhotos() {
-            if (!confirm('¿Borrar todas las fotos?')) return;
-
-            try {
-                const { error } = await supabase
-                    .from('photos')
-                    .delete()
-                    .neq('id', 0);
-
-                if (error) {
-                    console.error('Error:', error);
-                    return;
-                }
-
-                await loadPhotos();
-                renderPhotos();
-            } catch (e) {
-                console.error('Error:', e);
-            }
-        }
-
-        function updatePhotoCount() {
-            document.getElementById('photoCount').textContent = photos.length;
-            document.getElementById('displayPhotoCount').textContent = photos.length;
-            const uploadCount = document.getElementById('uploadCount');
-            if (photos.length > 0) {
-                uploadCount.classList.remove('hidden');
-                uploadCount.textContent = '✓ ' + photos.length + ' foto' + (photos.length !== 1 ? 's' : '') + ' compartida' + (photos.length !== 1 ? 's' : '');
-            } else {
-                uploadCount.classList.add('hidden');
-            }
-        }
-
-        function generateQRCode() {
-            const baseUrl = window.location.href.split('?')[0];
-            const qrText = baseUrl + '?guest=true';
-            return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(qrText);
-        }
-
-        function handleFileUpload(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const name = document.getElementById('guestName').value || 'Invitado';
-                    addPhoto(event.target.result, name);
-                    document.getElementById('guestName').value = '';
-                    e.target.value = '';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function renderPhotos() {
-            const grid = document.getElementById('photoGrid');
-            
-            if (photos.length === 0) {
-                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><p>Esperando fotos de los invitados...</p></div>';
-                return;
-            }
-
-            grid.innerHTML = photos.map(photo => `
-                <div class="photo-item" style="opacity: ${transmitting ? 1 : 0.6};">
-                    <img src="${photo.src}" alt="Foto" />
-                    <div class="photo-overlay">
-                        <div class="photo-info">
-                            <div>${photo.timestamp}</div>
-                            <div>${photo.name}</div>
-                        </div>
-                        <button class="photo-delete" onclick="deletePhoto(${photo.id})">✕</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateDisplay() {
-            if (!transmitting || photos.length === 0) {
-                document.getElementById('displayContent').innerHTML = `
-                    <div class="display-empty">
-                        <p>🎉</p>
-                        <p>Esperando fotos...</p>
-                    </div>
-                `;
-                return;
-            }
-
-            if (currentPhotoIndex >= photos.length) {
-                currentPhotoIndex = 0;
-            }
-
-            const photo = photos[currentPhotoIndex];
-            document.getElementById('displayContent').innerHTML = `
-                <img src="${photo.src}" alt="Foto" />
-                <div class="photo-info-display">
-                    <div class="name">${photo.name}</div>
-                    <div class="time">${photo.timestamp}</div>
-                </div>
-            `;
-        }
-
-        function rotateDisplay() {
-            if (transmitting && photos.length > 0) {
-                currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-                updateDisplay();
-            }
-        }
-
-        function toggleTransmit() {
-            transmitting = !transmitting;
-            const btn = document.getElementById('transmitBtn');
-            const badge = document.getElementById('statusBadge');
-            
-            if (transmitting) {
-                btn.textContent = '🔴 EN VIVO';
-                btn.classList.remove('off');
-                btn.classList.add('on');
-                badge.classList.remove('off');
-                badge.innerHTML = '✓ Transmisión activa - Los invitados pueden ver estas fotos en pantalla';
-                clearInterval(displayInterval);
-                displayInterval = setInterval(rotateDisplay, 5000);
-            } else {
-                btn.textContent = '⚫ PAUSADO';
-                btn.classList.remove('on');
-                btn.classList.add('off');
-                badge.classList.add('off');
-                badge.innerHTML = '○ Transmisión pausada - Las fotos se guardan pero no se muestran';
-                clearInterval(displayInterval);
-            }
-            renderPhotos();
-            updateDisplay();
-        }
-
-        function showScreen(screenId) {
-            document.getElementById('mainScreen').classList.add('hidden');
-            document.getElementById('guestScreen').classList.add('hidden');
-            document.getElementById('operatorScreen').classList.add('hidden');
-            document.getElementById('displayScreen').classList.add('hidden');
-            document.getElementById(screenId).classList.remove('hidden');
-        }
-
-        function goBack() {
-            showScreen('mainScreen');
-        }
-
-        function goGuest() {
-            showScreen('guestScreen');
-            document.getElementById('qrCode').src = generateQRCode();
-            document.getElementById('qrUrl').textContent = window.location.href;
-        }
-
-        function goOperator() {
-            const pwd = prompt('Contraseña de operador:');
-            if (pwd === OPERATOR_PASSWORD) {
-                showScreen('operatorScreen');
-                renderPhotos();
-                transmitting = false;
-                document.getElementById('transmitBtn').textContent = '⚫ PAUSADO';
-                document.getElementById('transmitBtn').classList.add('off');
-                document.getElementById('statusBadge').classList.add('off');
-            } else if (pwd !== null) {
-                alert('Contraseña incorrecta');
-            }
-        }
-
-        function openDisplay() {
-            showScreen('displayScreen');
-            updateDisplay();
-            clearInterval(displayInterval);
-            displayInterval = setInterval(() => {
-                loadPhotos();
-                if (transmitting) {
-                    rotateDisplay();
-                }
-            }, 1000);
-        }
-
-        // Inicializar
+document.getElementById('btnOperator').onclick = () => {
+    const pwd = prompt('Contraseña:');
+    if (pwd === PASSWORD) {
+        showScreen('operatorScreen');
         loadPhotos();
-        setInterval(loadPhotos, 2000);
-    </script>
+    } else if (pwd !== null) alert('Incorrecta');
+};
+
+document.getElementById('btnBackGuest').onclick = () => showScreen('mainScreen');
+document.getElementById('btnBackOp').onclick = () => showScreen('mainScreen');
+
+document.getElementById('fileInput').onchange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async (evt) => {
+            const name = document.getElementById('guestName').value || 'Invitado';
+            await addPhoto(evt.target.result, name);
+            document.getElementById('guestName').value = '';
+            e.target.value = '';
+            document.getElementById('uploadCount').style.display = 'block';
+            document.getElementById('uploadCount').textContent = '✓ Foto compartida';
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+document.getElementById('btnTransmit').onclick = () => {
+    transmitting = !transmitting;
+    const btn = document.getElementById('btnTransmit');
+    const badge = document.getElementById('statusBadge');
+    if (transmitting) {
+        btn.textContent = '🔴 EN VIVO';
+        btn.classList.remove('off');
+        btn.classList.add('on');
+        badge.textContent = '✓ Transmisión activa';
+        badge.classList.add('on');
+        setInterval(() => { if (transmitting && photos.length) { currentIdx = (currentIdx + 1) % photos.length; updateDisplay(); } }, 5000);
+    } else {
+        btn.textContent = '⚫ PAUSADO';
+        btn.classList.add('off');
+        btn.classList.remove('on');
+        badge.textContent = '○ Transmisión pausada';
+        badge.classList.remove('on');
+    }
+    renderPhotos();
+    updateDisplay();
+};
+
+document.getElementById('btnDisplay').onclick = () => {
+    showScreen('displayScreen');
+    updateDisplay();
+    setInterval(() => { loadPhotos(); if (transmitting && photos.length) updateDisplay(); }, 2000);
+};
+
+document.getElementById('btnClear').onclick = clearAll;
+
+loadPhotos();
+setInterval(loadPhotos, 2000);
+</script>
 
 </body>
 </html>
